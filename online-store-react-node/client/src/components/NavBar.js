@@ -6,23 +6,25 @@ import { NavLink } from "react-router-dom";
 import { SHOP_ROUTE } from "../utils/consts";
 import { Button, Container } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
+import s from "./NavBar.module.css"
+
 const NavBar = observer(() => {
   const { user } = useContext(Context);
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <NavLink style={{ color: "white" }} to={SHOP_ROUTE}>
+        <NavLink className={s.navLink} to={SHOP_ROUTE}>
           Buy device
         </NavLink>
         {user.isAuth ? (
-          <Nav className="ms-auto" style={{ color: "white" }}>
+          <Nav className="ms-auto">
             <Button variant={"outline-light"}>Admin panel</Button>
             <Button variant={"outline-light"} className="ms-2">
               Access
             </Button>
           </Nav>
         ) : (
-          <Nav className="ms-auto" style={{ color: "white" }}>
+          <Nav className="ms-auto">
             <Button
               variant={"outline-light"}
               onClick={() => user.setIsAuth(true)}
