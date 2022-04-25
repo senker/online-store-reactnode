@@ -3,13 +3,15 @@ import { Context } from "../index";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
-import { SHOP_ROUTE } from "../utils/consts";
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from "../utils/consts";
 import { Button, Container } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
-import s from "./NavBar.module.css"
+import s from "./NavBar.module.css";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = observer(() => {
   const { user } = useContext(Context);
+  const navigate = useNavigate();
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -18,16 +20,27 @@ const NavBar = observer(() => {
         </NavLink>
         {user.isAuth ? (
           <Nav className="ms-auto">
-            <Button variant={"outline-light"}>Admin panel</Button>
-            <Button variant={"outline-light"} className="ms-2">
-              Access
+            <Button
+              variant={"outline-light"}
+              onClick={() => navigate(ADMIN_ROUTE)}
+            >
+              Admin panel
+            </Button>
+            <Button
+              variant={"outline-light"}
+              onClick={() => navigate(LOGIN_ROUTE)}
+              className="ms-2"
+            >
+              Logout
             </Button>
           </Nav>
         ) : (
           <Nav className="ms-auto">
             <Button
               variant={"outline-light"}
-              onClick={() => user.setIsAuth(true)}
+              onClick={() => {
+                user.setIsAuth(true);
+              }}
             >
               Authorization
             </Button>
