@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useTransition } from "react";
 import { Context } from "../index";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
@@ -12,6 +12,12 @@ import { useNavigate } from "react-router-dom";
 const NavBar = observer(() => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
+
+  const logOut = () => {
+    user.setUser({});
+    user.setIsAuth(false);
+  };
+
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -28,7 +34,7 @@ const NavBar = observer(() => {
             </Button>
             <Button
               variant={"outline-light"}
-              onClick={() => navigate(LOGIN_ROUTE)}
+              onClick={() => logOut()}
               className="ms-2"
             >
               Logout
@@ -39,7 +45,7 @@ const NavBar = observer(() => {
             <Button
               variant={"outline-light"}
               onClick={() => {
-                user.setIsAuth(true);
+                navigate(LOGIN_ROUTE);
               }}
             >
               Authorization
