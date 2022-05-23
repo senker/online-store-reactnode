@@ -4,57 +4,7 @@ export default class DeviceStore {
   constructor() {
     this._types = [];
     this._brands = [];
-    this._devices = [
-      {
-        id: 1,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 2,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 3,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 4,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 5,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 6,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-      {
-        id: 7,
-        name: "Iphone 12 pro",
-        price: 25000,
-        rating: 5,
-        img: "https://www.mytrendyphone.dk/images/iPhone-12-Pro-256GB-Pacific-Blue-0194252040072-28102020-01-p.jpg",
-      },
-    ];
+    this._devices = [];
     this._selectedType = {};
     this._selectedBrand = {};
     makeAutoObservable(this);
