@@ -26,8 +26,16 @@ const CreateDevice = observer(({ show, onHide }) => {
     setInfo(info.filter((i) => i.number !== number));
   };
 
+  const changeInfo = (key, value, number) => {
+    setInfo(info.map((i) => (i.number == number ? { ...i, [key]: value } : i)));
+  };
+
   const selectFile = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const addDevice = () => {
+    console.log(info);
   };
 
   return (
@@ -88,10 +96,16 @@ const CreateDevice = observer(({ show, onHide }) => {
           {info.map((i) => (
             <Row className="mt-4" key={i.number}>
               <Col md={4}>
-                <Form.Control placeholder="Enter name of the property" />
+                <Form.Control 
+                value={i.title}
+                onChange={(e) => changeInfo('title', e.target.value, i.number)}
+                placeholder="Enter name of the property" />
               </Col>
               <Col md={4}>
-                <Form.Control placeholder="Enter description of the property" />
+                <Form.Control 
+                value={i.description}
+                onChange={(e) => changeInfo('description', e.target.value, i.number)}
+                placeholder="Enter description of the property" />
               </Col>
               <Col md={4}>
                 <Button
@@ -109,7 +123,7 @@ const CreateDevice = observer(({ show, onHide }) => {
         <Button variant="outline-danger" onClick={onHide}>
           Close
         </Button>
-        <Button variant="outline-success" onClick={onHide}>
+        <Button variant="outline-success" onClick={addDevice}>
           Add
         </Button>
       </Modal.Footer>
