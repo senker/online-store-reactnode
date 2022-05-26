@@ -1,17 +1,33 @@
-import { useContext, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
 import { Button, Col, Dropdown, Form, Modal, Row } from "react-bootstrap";
 import { Context } from "../..";
+import { fetchBrands, fetchTypes } from "../../http/deviceAPI";
 
-const CreateDevice = ({ show, onHide }) => {
+const CreateDevice = observer(({ show, onHide }) => {
   const { device } = useContext(Context);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [file, setFile] = useState(null);
+  /*   const [brand, setBrand] = useState(null);
+  const [type, setType] = useState(null); */
   const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    fetchTypes().then((data) => device.setTypes(data));
+    fetchBrands().then((data) => device.setBrands(data));
+  }, []);
 
   const addInfo = () => {
     setInfo([...info, { title: "", description: "", number: Date.now() }]);
   };
 
   const removeInfo = (number) => {
-    setInfo(info.filter(i => i.number !== number ));
+    setInfo(info.filter((i) => i.number !== number));
+  };
+
+  const selectFile = (e) => {
+    setFile(e.target.files[0]);
   };
 
   return (
@@ -22,28 +38,49 @@ const CreateDevice = ({ show, onHide }) => {
       <Modal.Body>
         <Form>
           <Dropdown className="mt-2 mb-2">
-            <Dropdown.Toggle>Choose type</Dropdown.Toggle>
+            <Dropdown.Toggle>
+              {device.selectedType.name || "Choose type"}
+            </Dropdown.Toggle>
             <Dropdown.Menu>
               {device.types.map((type) => (
-                <Dropdown.Item key={type.id}>{type.name}</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => device.setSelectedType(type)}
+                  key={type.id}
+                >
+                  {type.name}
+                </Dropdown.Item>
               ))}
             </Dropdown.Menu>
           </Dropdown>
           <Dropdown className="mt-2 mb-2">
-            <Dropdown.Toggle>Choose brand</Dropdown.Toggle>
+            <Dropdown.Toggle>
+              {device.selectedBrand.name || "Choose brand"}
+            </Dropdown.Toggle>
             <Dropdown.Menu>
               {device.brands.map((brand) => (
-                <Dropdown.Item key={brand.id}>{brand.name}</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => device.setSelectedBrand(brand)}
+                  key={brand.id}
+                >
+                  {brand.name}
+                </Dropdown.Item>
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          <Form.Control className="mt-3" placeholder="Enter device name" />
+          <Form.Control
+            className="mt-3"
+            placeholder="Enter device name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <Form.Control
             className="mt-3"
             placeholder="Enter device price"
             type="number"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
           />
-          <Form.Control className="mt-3" type="file" />
+          <Form.Control className="mt-3" type="file" onChange={selectFile} />
           <hr />
           <Button variant="outline-dark" onClick={addInfo}>
             Add new property
@@ -57,7 +94,12 @@ const CreateDevice = ({ show, onHide }) => {
                 <Form.Control placeholder="Enter description of the property" />
               </Col>
               <Col md={4}>
-                <Button onClick={() => removeInfo(i.number)} variant={"outline-danger"}>Remove</Button>
+                <Button
+                  onClick={() => removeInfo(i.number)}
+                  variant={"outline-danger"}
+                >
+                  Remove
+                </Button>
               </Col>
             </Row>
           ))}
@@ -73,6 +115,6 @@ const CreateDevice = ({ show, onHide }) => {
       </Modal.Footer>
     </Modal>
   );
-};
+});
 
 export default CreateDevice;
